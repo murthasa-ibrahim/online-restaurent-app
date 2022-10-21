@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1060831853538",
+    "project_id": "sign-in-29b13",
+    "storage_bucket": "sign-in-29b13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060831853538:android:d51bd5069451ea36d3d7bb",
+        "android_client_info": {
+          "package_name": "com.example.task_zartek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060831853538-78pe1r0oteceofvlb74fgvmfjrkm4c4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGob2hWpGKxcbOb9V2CIJexD2B97psiyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060831853538-78pe1r0oteceofvlb74fgvmfjrkm4c4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
