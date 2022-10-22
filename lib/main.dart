@@ -6,6 +6,7 @@ import 'package:task_zartek/app/screens/auth/controller/sign_in_provider.dart';
 import 'package:task_zartek/app/screens/auth/view/login.dart';
 import 'package:task_zartek/app/screens/cart/controller/cart_provider.dart';
 import 'package:task_zartek/app/screens/home/controller/home_controller.dart';
+import 'package:task_zartek/app/screens/home/view/user_home.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +27,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<OtpController>(create: (context) => OtpController(),),
         ChangeNotifierProvider<CartProvider>(create: (context) => CartProvider(),)
       ],
-      child: MaterialApp(
-         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const LoginScreen(),
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
+             debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            // home: Home(),
+            home:  context.read<SignInProvider>().user == null ? const LoginScreen() : const Home()
+          );
+        }
       ),
     );
   }

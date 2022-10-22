@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_zartek/app/const/constant.dart';
 import 'package:task_zartek/app/screens/auth/controller/otp_provider.dart';
-import 'package:task_zartek/app/screens/auth/view/otp_varification_screen.dart';
+
 
 class NumberEnterScreen extends StatelessWidget {
   const NumberEnterScreen({Key? key}) : super(key: key);
@@ -10,11 +10,12 @@ class NumberEnterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kWhite,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
+            const  SizedBox(height: 50,),
               Image.asset("assets/images/otp.webp"),
               const Text(
                 "Registration",
@@ -33,31 +34,44 @@ class NumberEnterScreen extends StatelessWidget {
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: context.read<OtpController>().phoneController,
-                          decoration: const InputDecoration(
-                              hintText: "Enter phone number here",
-                              border:  OutlineInputBorder()),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
+                    child: Consumer<OtpController>(
+                      builder: (_, otpProvider, __) => Column(
+                        children: [
+                          Form(
+                            key: otpProvider.formkey,
+                            child: TextFormField(
+                              validator: (value) => otpProvider.formValidation(value),
+                              controller:
+                                  context.read<OtpController>().phoneController,
+                              decoration: const InputDecoration(
+                                  prefix: Text(
+                                    '+91 ',
+                                    style: TextStyle(color: kblack),
+                                  ),
+                                  hintText: "Enter phone number here",
+                                  border: OutlineInputBorder()),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.deepPurpleAccent),
-                                onPressed: () {
-                                  context.read<OtpController>().verifyNumber();
-                                  Navigator.of(context).push(MaterialPageRoute(builder:(context) =>const  OtpVerificationScreen(),));
-                                },
-                                child: const Text(
-                                  "Send",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                )))
-                      ],
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.deepPurpleAccent),
+                              onPressed: () {
+                                otpProvider.verifyNumber(context);
+                               
+                              },
+                              child: const Text(
+                                "Send",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
+import 'package:task_zartek/app/const/constant.dart';
 import 'package:task_zartek/app/screens/auth/controller/otp_provider.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
@@ -10,11 +11,14 @@ class OtpVerificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: kWhite,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(
+                height: 60,
+              ),
               Image.asset(
                 "assets/images/otpvarification.webp",
                 height: size.height * .4,
@@ -38,7 +42,8 @@ class OtpVerificationScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         PinCodeTextField(
-                          controller: context.read<OtpController>().otpController,
+                          controller:
+                              context.read<OtpController>().otpController,
                           appContext: context,
                           length: 6,
                           onChanged: (value) {},
@@ -51,7 +56,6 @@ class OtpVerificationScreen extends StatelessWidget {
                             fieldHeight: 50,
                             fieldWidth: 40,
                             activeFillColor: Colors.white,
-                            
                           ),
                           // enableActiveFill: true,
                         ),

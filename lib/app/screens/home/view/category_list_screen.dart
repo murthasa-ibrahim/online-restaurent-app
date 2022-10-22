@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_zartek/app/const/constant.dart';
 import 'package:task_zartek/app/screens/cart/controller/cart_provider.dart';
-import 'package:task_zartek/app/screens/home/controller/home_controller.dart';
 import 'package:task_zartek/app/screens/home/model/category_model.dart';
 import 'package:task_zartek/app/widget/custom_icon.dart';
 
@@ -15,7 +12,6 @@ class CategoryListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = categoryModel.categoryDishes;
-    log(categoryModel.categoryDishes[0].dishImage);
     return Scaffold(
       body: SafeArea(
         child: ListView.separated(
@@ -26,7 +22,7 @@ class CategoryListScreen extends StatelessWidget {
             );
           },
           itemBuilder: (context, index) => Container(
-            color: Colors.white,
+            color: kWhite,
             margin: const EdgeInsets.all(13),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,10 +33,12 @@ class CategoryListScreen extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: kdefaultPadding / 4),
-                            child: CustomIcon(size: 20, color: Colors.green),
+                            child: CustomIcon(
+                              categoryDish: item[index],
+                            ),
                           ),
                           Expanded(
                             child: Text(
@@ -62,7 +60,6 @@ class CategoryListScreen extends StatelessWidget {
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          // Spacer(),
                           Padding(
                             padding: const EdgeInsets.only(
                                 right: kdefaultPadding / 4),
@@ -77,27 +74,31 @@ class CategoryListScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(kdefaultPadding / 2),
                         child: Text(item[index].dishDescription),
                       ),
-                       ItemAddBtn(categoryDish: item[index],)
+                      ItemAddBtn(
+                        categoryDish: item[index],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      item[index].addonCat!.isNotEmpty
+                          ? const Text(
+                              "Customization Available",
+                              style: TextStyle(color: Colors.red),
+                            )
+                          : const SizedBox()
                     ],
                   ),
                 ),
-                // Image.network(
-                //   item[index].dishImage,
-                //   height: 20,
-                //   width: 20,
-
-                // )
                 FadeInImage(
                     imageErrorBuilder: (context, error, stackTrace) =>
-                        Container(
-                          width: 70,
+                        Image.asset(
+                          "assets/images/soup.jpg",
                           height: 70,
-                          color: Colors.grey,
+                          width: 70,
                         ),
                     width: 70,
                     height: 70,
-                    placeholder:
-                        const AssetImage("assets/images/soup.jpg"),
+                    placeholder: const AssetImage("assets/images/soup.jpg"),
                     image: NetworkImage(
                       item[index].dishImage,
                     ))
@@ -112,7 +113,8 @@ class CategoryListScreen extends StatelessWidget {
 
 class ItemAddBtn extends StatelessWidget {
   const ItemAddBtn({
-    Key? key, required this.categoryDish,
+    Key? key,
+    required this.categoryDish,
   }) : super(key: key);
   final CategoryDish categoryDish;
   @override
@@ -123,22 +125,24 @@ class ItemAddBtn extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.green, borderRadius: BorderRadius.circular(30)),
       child: Consumer<CartProvider>(
-        builder: (_, provider, __) => 
-         Row(
+        builder: (_, provider, __) => Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
                 onPressed: () {
                   provider.removeItem(categoryDish);
-                }, icon: const Icon(Icons.remove, color: kWhite)),
-             Text(
+                },
+                icon: const Icon(Icons.remove, color: kWhite)),
+            Text(
               categoryDish.count.toString(),
-              style:const TextStyle(color: kWhite, fontSize: 20),
+              style: const TextStyle(color: kWhite, fontSize: 20),
             ),
             IconButton(
-                onPressed: () {
-                  provider.addItem(categoryDish);
-                }, icon: const Icon(Icons.add, color: kWhite))
+              onPressed: () {
+                provider.addItem(categoryDish);
+              },
+              icon: const Icon(Icons.add, color: kWhite),
+            )
           ],
         ),
       ),

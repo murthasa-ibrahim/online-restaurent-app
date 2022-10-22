@@ -11,40 +11,42 @@ class SignInProvider extends ChangeNotifier {
   final user = FirebaseAuth.instance.currentUser;
   bool isLoading = false;
   Future<UserCredential?> googleSignIn() async {
-    // googleUser = await _googleSignIn.signIn();
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
     final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
-
+    await _googleSignIn.signOut();
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   googleSingOut(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
-    await _googleSignIn.signOut().then((value) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ));
-      log('log out');
-      notifyListeners();
-    });
+    await FirebaseAuth.instance.signOut().then(
+      (value) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ));
+        log('log out');
+        notifyListeners();
+      },
+    );
   }
 
   validatioin(BuildContext context) {
     isLoading = true;
     notifyListeners();
-    googleSignIn().then((value) {
-      isLoading = false;
-      notifyListeners();
-      value != null
-          ? Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const Home(),
-            ))
-          : log(value.toString());
-    });
+    googleSignIn().then(
+      (value) {
+        isLoading = false;
+        notifyListeners();
+        value != null
+            ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const Home(),
+              ))
+            : log(value.toString());
+      },
+    );
     notifyListeners();
   }
 }

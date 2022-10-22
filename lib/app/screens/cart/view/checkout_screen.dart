@@ -33,37 +33,37 @@ class CartScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black12),
               ),
-              child: Column(
-                children: [
-                  Center(
+              child: Consumer<CartProvider>(
+                builder: (_, cartProvider, __) => Column(
+                  children: [
+                    Center(
                       child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(5)),
-                    margin: const EdgeInsets.only(left: 10, right: 10),
-                    width: w,
-                    height: 50,
-                    child: const Center(
-                      child: Text(
-                        '2 Dishes - 2 items',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(5)),
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        width: w,
+                        height: 50,
+                        child: Center(
+                          child: Text(
+                            '${cartProvider.cartList.length} Dishes - ${cartProvider.totalItemCount} items',
+                            style: const TextStyle(
+                                color: kWhite,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
-                  )),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: context.read<CartProvider>().cartList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:
-                            Consumer<CartProvider>(builder: (_, hprovider, __) {
-                          final item = hprovider.cartList[index];
-                          return Column(
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: cartProvider.cartList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final item = cartProvider.cartList[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
                             children: [
                               SizedBox(
                                 height: 130,
@@ -74,17 +74,15 @@ class CartScreen extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.all(5),
                                       child: CustomIcon(
-                                          size: 20,
-                                          color: index % 2 == 0
-                                              ? Colors.green
-                                              : Colors.red),
+                                        categoryDish: item,
+                                      ),
                                     ),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(hprovider
+                                          Text(cartProvider
                                               .cartList[index].dishName),
                                           const SizedBox(
                                             height: 10,
@@ -110,36 +108,45 @@ class CartScreen extends StatelessWidget {
                                       ],
                                     ),
                                     Column(
-                                      children: const [Text("INR 22.00")],
+                                      children: [
+                                        Text(
+                                          "INR ${item.dishPrice}",
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
                                     )
                                   ],
                                 ),
                               ),
                               const Divider()
                             ],
-                          );
-                        }),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Total Amount",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        Text(
-                          "INR  35",
-                          style: TextStyle(color: Colors.green),
-                        )
-                      ],
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Total Amount",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          Text(
+                            "INR  ${context.read<CartProvider>().totalPrize}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -147,20 +154,22 @@ class CartScreen extends StatelessWidget {
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(16),
           child: SizedBox(
-              height: 50,
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromARGB(255, 16, 40, 17)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ))),
-                  onPressed: () {},
-                  child: const Text(
-                    "Place Order",
-                    style: TextStyle(),
+            height: 50,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color.fromARGB(255, 16, 40, 17)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
                   ))),
+              onPressed: () {},
+              child: const Text(
+                "Place Order",
+                style: TextStyle(),
+              ),
+            ),
+          ),
         ),
       ),
     );

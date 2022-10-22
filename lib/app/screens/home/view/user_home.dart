@@ -1,7 +1,9 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_zartek/app/const/constant.dart';
 import 'package:task_zartek/app/screens/auth/controller/sign_in_provider.dart';
+import 'package:task_zartek/app/screens/cart/controller/cart_provider.dart';
 import 'package:task_zartek/app/screens/cart/view/checkout_screen.dart';
 import 'package:task_zartek/app/screens/home/model/category_model.dart';
 import 'package:task_zartek/app/screens/home/view/category_list_screen.dart';
@@ -34,15 +36,30 @@ class _HomeState extends State<Home> {
               )),
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const CartScreen(),));
-              },
-              icon: const Icon(
-                Icons.local_grocery_store,
-                color: Colors.grey,
-                size: 35,
-              )),
+          Consumer<CartProvider>(
+            builder: (_, cartProvider, __) => Badge(
+              position: BadgePosition.topEnd(top: 10, end: 4),
+              badgeContent: Text(
+                "${cartProvider.cartList.length}",
+                style:
+                    const TextStyle(color: kWhite, fontWeight: FontWeight.bold),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CartScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.local_grocery_store,
+                  color: Colors.grey,
+                  size: 35,
+                ),
+              ),
+            ),
+          ),
         ],
         elevation: 0,
         backgroundColor: kWhite,
@@ -62,12 +79,19 @@ class _HomeState extends State<Home> {
               builder: (context, value, child) => Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const CircleAvatar(
-                    backgroundColor: Colors.amber,
-                    radius: 40,
-                  ),
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(60),
+                      child: FadeInImage(
+                        imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/firebase.png",fit: BoxFit.cover,height: 80,width: 80,),
+                        fit: BoxFit.cover,
+                        placeholder: const AssetImage("assets/images/firebase.png",),
+                        image: NetworkImage(
+                          loginProvider.user?.photoURL??'',
+                        ),
+                      )),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: kdefaultPadding/2),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: kdefaultPadding / 2),
                     child: Text(
                       loginProvider.user?.displayName ?? 'user name',
                       style: const TextStyle(fontSize: 20),
@@ -76,7 +100,10 @@ class _HomeState extends State<Home> {
                   Expanded(
                     child: Text(
                       "ID : ${loginProvider.user?.uid}",
-                      style: const TextStyle(fontSize: 20),
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
                   )
                 ],
