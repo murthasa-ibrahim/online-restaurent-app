@@ -67,26 +67,28 @@ class CategoryDish {
     required this.dishType,
     required this.nexturl,
     required this.addonCat,
+    this.count = 0,
   });
 
   final String dishId;
   final String dishName;
   final double dishPrice;
   final String dishImage;
-  final DishCurrency? dishCurrency;
-  final int dishCalories;
+  final String? dishCurrency;
+  final double dishCalories;
   final String dishDescription;
   final bool dishAvailability;
   final int dishType;
   final String nexturl;
   final List<AddonCat>? addonCat;
+  int count;
 
   factory CategoryDish.fromJson(Map<String, dynamic> json) => CategoryDish(
         dishId: json["dish_id"],
         dishName: json["dish_name"],
         dishPrice: json["dish_price"].toDouble(),
         dishImage: json["dish_image"],
-        dishCurrency: dishCurrencyValues.map[json["dish_currency"]],
+        dishCurrency: json["dish_currency"],
         dishCalories: json["dish_calories"],
         dishDescription: json["dish_description"],
         dishAvailability: json["dish_Availability"],

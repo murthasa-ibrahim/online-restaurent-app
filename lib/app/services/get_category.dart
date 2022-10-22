@@ -4,8 +4,8 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:task_zartek/app/screens/home/model/category_model.dart';
 
-class GetCategory {
-  getCategoryApi() async {
+class ApiService {
+  Future<List<CategoryModel>> getCategoryApi() async {
     const uri = "https://www.mocky.io/v2/5dfccffc310000efc8d2c1ad";
 
     try {
@@ -14,21 +14,23 @@ class GetCategory {
         log('success');
 
         final a = response.data[0]["table_menu_list"];
-        log(a.toString());
+       // log(a.toString());
         log('murrrrr');
-        final b = categoryModelFromJson(
+        return categoryModelFromJson(
             jsonEncode(response.data[0]["table_menu_list"]));
-        log(b.toString());
+        
       }
     } catch (e) {
       if (e is DioError) {
         if (e.response != null) {
           if (e.response?.data == null) {
-            return "something went wrong";
+            throw "something went wrong";
           }
         }
-        return "No network";
+        throw "No network";
       }
-    }
+      log(e.toString());
+      
+    }throw 'something went wrong';
   }
 }
