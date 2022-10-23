@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("assets/images/firebase.png"),
+              Image.asset('assets/images/firebase.png'),
               const SizedBox(
                 height: 50,
               ),

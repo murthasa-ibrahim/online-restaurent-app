@@ -21,16 +21,17 @@ class SignInProvider extends ChangeNotifier {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  googleSingOut(BuildContext context) async {
+  signOut(BuildContext context) async {
+
     await FirebaseAuth.instance.signOut().then(
       (value) {
+       
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const LoginScreen(),
         ));
-        log('log out');
-        notifyListeners();
       },
     );
+    notifyListeners();
   }
 
   validatioin(BuildContext context) {

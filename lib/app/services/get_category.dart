@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:task_zartek/app/screens/home/model/category_model.dart';
@@ -11,14 +10,8 @@ class ApiService {
     try {
       final response = await Dio().get(uri);
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
-        log('success');
-
-        final a = response.data[0]["table_menu_list"];
-       // log(a.toString());
-        log('murrrrr');
         return categoryModelFromJson(
             jsonEncode(response.data[0]["table_menu_list"]));
-        
       }
     } catch (e) {
       if (e is DioError) {
@@ -29,8 +22,7 @@ class ApiService {
         }
         throw "No network";
       }
-      log(e.toString());
-      
-    }throw 'something went wrong';
+    }
+    throw 'something went wrong';
   }
 }
