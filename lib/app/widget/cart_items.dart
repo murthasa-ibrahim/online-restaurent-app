@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:task_zartek/app/utils/utils.dart';
 
 import '../screens/cart/controller/cart_provider.dart';
 import 'Item_btn.dart';
@@ -44,7 +45,7 @@ class CartItems extends StatelessWidget {
                             height: 10,
                           ),
                           Text(
-                            "INR ${provider.converToINR(item.dishPrice)}",
+                            "INR ${Utils.inrValueOf(item.dishPrice).toStringAsFixed(2)}",
                             style:
                                 const TextStyle(fontSize: 10),
                           ),
@@ -66,7 +67,7 @@ class CartItems extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          "INR ${provider.converToINR(item.dishPrice)}",
+                          "INR ${Utils.inrValueOf(item.dishPrice).toStringAsFixed(2)}",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),

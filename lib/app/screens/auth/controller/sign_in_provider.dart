@@ -12,20 +12,23 @@ class SignInProvider extends ChangeNotifier {
   bool isLoading = false;
   Future<UserCredential?> googleSignIn() async {
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
-    await _googleSignIn.signOut();
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    if (googleUser != null) {
+      isLoading = true;
+      notifyListeners();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      await _googleSignIn.signOut();
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    }
+    log('got it yaaaaaaaaaaaaa');
+    return null;
   }
 
   signOut(BuildContext context) async {
-
     await FirebaseAuth.instance.signOut().then(
       (value) {
-       
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const LoginScreen(),
         ));
@@ -35,8 +38,6 @@ class SignInProvider extends ChangeNotifier {
   }
 
   validatioin(BuildContext context) {
-    isLoading = true;
-    notifyListeners();
     googleSignIn().then(
       (value) {
         isLoading = false;

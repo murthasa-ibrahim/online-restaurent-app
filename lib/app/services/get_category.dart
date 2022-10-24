@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:task_zartek/app/screens/home/model/category_model.dart';
@@ -6,7 +7,7 @@ import 'package:task_zartek/app/screens/home/model/category_model.dart';
 class ApiService {
   Future<List<CategoryModel>> getCategoryApi() async {
     const uri = "https://www.mocky.io/v2/5dfccffc310000efc8d2c1ad";
-
+    log("api called......");
     try {
       final response = await Dio().get(uri);
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {

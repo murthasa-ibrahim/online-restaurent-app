@@ -57,7 +57,6 @@ class OtpVerificationScreen extends StatelessWidget {
                             fieldWidth: 40,
                             activeFillColor: Colors.white,
                           ),
-                          // enableActiveFill: true,
                         ),
                         const SizedBox(
                           height: 20,

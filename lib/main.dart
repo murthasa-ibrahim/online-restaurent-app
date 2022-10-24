@@ -5,7 +5,6 @@ import 'package:task_zartek/app/screens/auth/controller/otp_provider.dart';
 import 'package:task_zartek/app/screens/auth/controller/sign_in_provider.dart';
 import 'package:task_zartek/app/screens/auth/view/login.dart';
 import 'package:task_zartek/app/screens/cart/controller/cart_provider.dart';
-import 'package:task_zartek/app/screens/home/controller/home_controller.dart';
 import 'package:task_zartek/app/screens/home/view/user_home.dart';
 
 void main()async {
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<HomeProvider>(create: (context) => HomeProvider(),),
         ChangeNotifierProvider<SignInProvider>(create: (context) => SignInProvider(),),
         ChangeNotifierProvider<OtpController>(create: (context) => OtpController(),),
         ChangeNotifierProvider<CartProvider>(create: (context) => CartProvider(),)
@@ -33,8 +31,7 @@ class MyApp extends StatelessWidget {
              debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.blue,
-            ),
-            // home: Home(),
+            ),   
             home:  context.read<SignInProvider>().user == null ? const LoginScreen() : const Home()
           );
         }

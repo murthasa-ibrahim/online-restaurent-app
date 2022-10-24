@@ -41,6 +41,7 @@ class NumberEnterScreen extends StatelessWidget {
                             key: otpProvider.formkey,
                             child: TextFormField(
                               validator: (value) => otpProvider.formValidation(value),
+                              keyboardType: TextInputType.phone,
                               controller:
                                   context.read<OtpController>().phoneController,
                               decoration: const InputDecoration(
@@ -60,11 +61,12 @@ class NumberEnterScreen extends StatelessWidget {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.deepPurpleAccent),
-                              onPressed: () {
-                                otpProvider.verifyNumber(context);
-                               
-                              },
-                              child: const Text(
+                              onPressed:  () {
+                                otpProvider.verifyNumber(context);      
+                              } ,
+                              child: otpProvider.isLoading 
+                              ? const Center(child: CircularProgressIndicator(color: Colors.amber,),)
+                              :const Text(
                                 "Send",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),

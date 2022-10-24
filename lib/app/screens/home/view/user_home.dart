@@ -10,14 +10,9 @@ import 'package:task_zartek/app/screens/home/view/category_list_screen.dart';
 import 'package:task_zartek/app/services/get_category.dart';
 import 'package:task_zartek/app/widget/darwer.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -29,14 +24,15 @@ class _HomeState extends State<Home> {
         automaticallyImplyLeading: false,
         leading: Builder(
           builder: (context) => IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu_rounded,
-                color: kblack,
-                size: 30,
-              ),),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: const Icon(
+              Icons.menu_rounded,
+              color: kblack,
+              size: 30,
+            ),
+          ),
         ),
         actions: [
           Consumer<CartProvider>(

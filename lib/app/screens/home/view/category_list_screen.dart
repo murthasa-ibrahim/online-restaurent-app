@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:task_zartek/app/const/constant.dart';
-import 'package:task_zartek/app/screens/cart/controller/cart_provider.dart';
-import 'package:task_zartek/app/screens/home/controller/home_controller.dart';
 import 'package:task_zartek/app/screens/home/model/category_model.dart';
+import 'package:task_zartek/app/utils/utils.dart';
 import 'package:task_zartek/app/widget/Item_btn.dart';
 import 'package:task_zartek/app/widget/custom_icon.dart';
 
@@ -57,7 +55,7 @@ class CategoryListScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(kdefaultPadding / 2),
                             child: Text(
-                              "INR ${context.read<CartProvider>().converToINR(item[index].dishPrice)}",
+                              "INR ${Utils.inrValueOf(item[index].dishPrice).toStringAsFixed(2)}",
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),

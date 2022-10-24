@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_zartek/app/const/constant.dart';
 import 'package:task_zartek/app/screens/cart/controller/cart_provider.dart';
+import 'package:task_zartek/app/utils/utils.dart';
 
 import '../../../widget/cart_items.dart';
 import '../../../widget/place_order_btn.dart';
@@ -67,7 +68,7 @@ class CartScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                           Text(
-                            "INR  ${context.read<CartProvider>().totalPrize}",
+                            "INR  ${Utils.inrValueOf(cartProvider.totalPrize).toStringAsFixed(2)}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green),
